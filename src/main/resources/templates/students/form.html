@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head><title th:text="${student.id != null ? 'Edit Student' : 'New Student'}">Student Form</title></head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex align-items-center gap-2 mb-4">
+        <a th:href="@{/students}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="mb-0" th:text="${student.id != null ? 'Edit Student' : 'New Student'}"></h2>
+    </div>
+
+    <div class="card shadow-sm" style="max-width: 600px;">
+        <div class="card-body">
+            <form th:action="${student.id != null ? '/students/' + student.id : '/students'}"
+                  th:object="${student}" method="post">
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">First Name</label>
+                        <input type="text" th:field="*{firstName}" class="form-control"
+                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{firstName}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" th:field="*{lastName}" class="form-control"
+                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{lastName}"></div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{email}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" th:field="*{dateOfBirth}" class="form-control"
+                               th:classappend="${#fields.hasErrors('dateOfBirth')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{dateOfBirth}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Phone</label>
+                        <input type="text" th:field="*{phone}" class="form-control"
+                               th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{phone}"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a th:href="@{/students}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

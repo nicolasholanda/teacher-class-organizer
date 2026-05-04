@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head><title>Record Attendance</title></head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex align-items-center gap-2 mb-4">
+        <a th:href="@{/attendance/enrollment/{id}(id=${attendance.enrollmentId})}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="mb-0">Record Attendance</h2>
+    </div>
+
+    <p class="text-muted mb-4">
+        <strong th:text="${enrollment.student.fullName}"></strong> —
+        <span th:text="${enrollment.course.name}"></span>
+    </p>
+
+    <div class="card shadow-sm" style="max-width: 400px;">
+        <div class="card-body">
+            <form th:action="@{/attendance}" th:object="${attendance}" method="post">
+                <input type="hidden" th:field="*{enrollmentId}">
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" th:field="*{attendanceDate}" class="form-control"
+                           th:classappend="${#fields.hasErrors('attendanceDate')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{attendanceDate}"></div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" th:field="*{present}" class="form-check-input" id="presentCheck">
+                    <label class="form-check-label" for="presentCheck">Present</label>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a th:href="@{/attendance/enrollment/{id}(id=${attendance.enrollmentId})}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

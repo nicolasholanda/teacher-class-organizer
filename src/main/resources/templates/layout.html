@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE — Class Organizer">Class Organizer</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}">
+    <style>
+        body { background-color: #f8f9fa; }
+        .sidebar { min-height: 100vh; background: #2c3e50; }
+        .sidebar .nav-link { color: #bdc3c7; padding: .5rem 1rem; border-radius: .375rem; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #3498db; color: #fff; }
+        .sidebar .brand { color: #ecf0f1; font-size: 1.1rem; font-weight: 600; }
+        .content-area { padding: 2rem; }
+        .stat-card { border-left: 4px solid; }
+        .stat-card.students { border-color: #3498db; }
+        .stat-card.courses  { border-color: #2ecc71; }
+        .stat-card.enrollments { border-color: #e67e22; }
+    </style>
+</head>
+<body>
+<div class="d-flex">
+    <nav class="sidebar d-flex flex-column p-3" style="width: 240px; min-width: 240px;">
+        <a th:href="@{/}" class="brand d-flex align-items-center gap-2 mb-4 text-decoration-none">
+            <i class="bi bi-mortarboard-fill fs-4"></i>
+            <span>Class Organizer</span>
+        </a>
+        <ul class="nav flex-column gap-1">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}"
+                   th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/students}"
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/students')} ? 'active'">
+                    <i class="bi bi-people me-2"></i>Students
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/courses}"
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/courses')} ? 'active'">
+                    <i class="bi bi-book me-2"></i>Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/enrollments}"
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/enrollments')} ? 'active'">
+                    <i class="bi bi-journal-check me-2"></i>Enrollments
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="flex-grow-1 content-area">
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div layout:fragment="content">
+        </div>
+    </main>
+</div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head><title>Dashboard</title></head>
+<body>
+<div layout:fragment="content">
+    <h2 class="mb-4">Dashboard</h2>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card stat-card students shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-people-fill fs-2 text-primary"></i>
+                    <div>
+                        <div class="text-muted small">Total Students</div>
+                        <div class="fs-3 fw-bold" th:text="${dashboard.totalStudents}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card courses shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-book-fill fs-2 text-success"></i>
+                    <div>
+                        <div class="text-muted small">Total Courses</div>
+                        <div class="fs-3 fw-bold" th:text="${dashboard.totalCourses}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card enrollments shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-journal-check fs-2 text-warning"></i>
+                    <div>
+                        <div class="text-muted small">Active Enrollments</div>
+                        <div class="fs-3 fw-bold" th:text="${dashboard.activeEnrollments}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header fw-semibold">Course Schedule</div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Course</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Room</th>
+                        <th>Enrolled / Max</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${dashboard.upcomingCourses.empty}">
+                        <td colspan="5" class="text-center text-muted py-3">No courses yet.</td>
+                    </tr>
+                    <tr th:each="c : ${dashboard.upcomingCourses}">
+                        <td th:text="${c.name}"></td>
+                        <td th:text="${c.dayOfWeek}"></td>
+                        <td th:text="${#temporals.format(c.startTime, 'HH:mm')} + ' – ' + ${#temporals.format(c.endTime, 'HH:mm')}"></td>
+                        <td th:text="${c.room ?: '—'}"></td>
+                        <td th:text="${c.activeEnrollmentCount} + ' / ' + ${c.maxStudents}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
